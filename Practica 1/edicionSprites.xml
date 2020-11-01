@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849701</millis>
+  <sequence>0</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 79</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849703</millis>
+  <sequence>1</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 83</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849711</millis>
+  <sequence>2</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 86</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849721</millis>
+  <sequence>3</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 88</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849731</millis>
+  <sequence>4</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 90</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849741</millis>
+  <sequence>5</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 95</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849751</millis>
+  <sequence>6</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 98</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849761</millis>
+  <sequence>7</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 100</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849781</millis>
+  <sequence>8</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 102</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849801</millis>
+  <sequence>9</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 107</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849821</millis>
+  <sequence>10</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 110</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849841</millis>
+  <sequence>11</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 112</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849850</millis>
+  <sequence>12</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 114</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849860</millis>
+  <sequence>13</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 119</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849870</millis>
+  <sequence>14</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 121</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849880</millis>
+  <sequence>15</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 124</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849890</millis>
+  <sequence>16</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 126</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849910</millis>
+  <sequence>17</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 131</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849919</millis>
+  <sequence>18</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 133</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849939</millis>
+  <sequence>19</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 136</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:49</date>
+  <millis>1604266849970</millis>
+  <sequence>20</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 138</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:50</date>
+  <millis>1604266850009</millis>
+  <sequence>21</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 143</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:50</date>
+  <millis>1604266850029</millis>
+  <sequence>22</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 145</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:50</date>
+  <millis>1604266850049</millis>
+  <sequence>23</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 148</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:50</date>
+  <millis>1604266850059</millis>
+  <sequence>24</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 150</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:50</date>
+  <millis>1604266850069</millis>
+  <sequence>25</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 155</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:50</date>
+  <millis>1604266850089</millis>
+  <sequence>26</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 157</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:50</date>
+  <millis>1604266850110</millis>
+  <sequence>27</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 160</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:50</date>
+  <millis>1604266850139</millis>
+  <sequence>28</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 162</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:50</date>
+  <millis>1604266850179</millis>
+  <sequence>29</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 167</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:50</date>
+  <millis>1604266850229</millis>
+  <sequence>30</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 167</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:57</date>
+  <millis>1604266857461</millis>
+  <sequence>31</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 167</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:57</date>
+  <millis>1604266857461</millis>
+  <sequence>32</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 169</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:57</date>
+  <millis>1604266857501</millis>
+  <sequence>33</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 171</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:57</date>
+  <millis>1604266857711</millis>
+  <sequence>34</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 167</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:57</date>
+  <millis>1604266857730</millis>
+  <sequence>35</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 164</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:57</date>
+  <millis>1604266857760</millis>
+  <sequence>36</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 162</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:57</date>
+  <millis>1604266857790</millis>
+  <sequence>37</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 160</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:57</date>
+  <millis>1604266857820</millis>
+  <sequence>38</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 155</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:57</date>
+  <millis>1604266857841</millis>
+  <sequence>39</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 152</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:57</date>
+  <millis>1604266857860</millis>
+  <sequence>40</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 150</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:57</date>
+  <millis>1604266857879</millis>
+  <sequence>41</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 148</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:57</date>
+  <millis>1604266857909</millis>
+  <sequence>42</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 143</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:57</date>
+  <millis>1604266857940</millis>
+  <sequence>43</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 140</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:58</date>
+  <millis>1604266858009</millis>
+  <sequence>44</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 138</message>
+</record>
+<record>
+  <date>2020-11-01T22:40:58</date>
+  <millis>1604266858069</millis>
+  <sequence>45</sequence>
+  <logger>loger-spries</logger>
+  <level>INFO</level>
+  <class>es.deusto.prog3.cap00.resueltos.edicionSpritesV2.VentanaEdicionSprites</class>
+  <method>lambda$4</method>
+  <thread>15</thread>
+  <message>VelocidadProbada: 138</message>
+</record>
+</log>

@@ -21,6 +21,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 //Import para Java Collections y otras utilidades
 import java.util.*;
+import java.util.logging.Level;
 
 
 /** Ejercicio de creación de ventanas complejas (versión 1 - resuelto solo lo visual)
@@ -84,6 +85,7 @@ public class VentanaEdicionSprites extends JFrame {  // Vamos a definir una clas
 	// Atributos de componentes -todos los componentes a los que vamos a acceder o modificar los definimos como atributos para que sean fácilmente accesibles
 	// Normalmente se hacen private pero aquí los hacemos de paquete para que pueda utilizarlos directamente el controlador
 	public static final String NOM_FICHERO= "sprites.ini";
+	boolean finComunicacion;
 	public JList<File> lSprites;  // Lista de sprites (1)
 	JLabel lCarpetaSel;  // Texto de la carpeta seleccionada
 	JButton bBuscar;  // Botón de búsqueda de carpeta
@@ -134,7 +136,7 @@ public class VentanaEdicionSprites extends JFrame {  // Vamos a definir una clas
 	 */
 	public VentanaEdicionSprites() {
 	
-		
+		finComunicacion=false;
 		// Inicializa el controlador
 		miControlador = new ControladorVentanaSprites( this );
 		
@@ -377,50 +379,55 @@ public class VentanaEdicionSprites extends JFrame {  // Vamos a definir una clas
 		
 		
 		// Slider y textfield de rotación
-		slRotacionAnim.addChangeListener( (ChangeEvent e)-> miControlador.sliderStateChanged( slRotacionAnim, tfRotacionAnim ));
+		slRotacionAnim.addChangeListener( (ChangeEvent e)-> miControlador.sliderStateChanged( ));//slRotacionAnim, tfRotacionAnim
 			
 		tfRotacionAnim.addFocusListener( new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				miControlador.textFieldFocusLost( slRotacionAnim, tfRotacionAnim, slRotacionAnim.getMinimum(), slRotacionAnim.getMaximum() );
+				miControlador.textFieldFocusLost(  );//slRotacionAnim, tfRotacionAnim, slRotacionAnim.getMinimum(), slRotacionAnim.getMaximum()
 			}
 		});
 		// Resto de sliders y textfields asociados (mismo criterio, mismos métodos)
-		slVelocidad.addChangeListener( (ChangeEvent e) ->miControlador.sliderStateChanged( slVelocidad, tfVelocidad ));
-		
+		slVelocidad.addChangeListener( (ChangeEvent e) ->{
+		miControlador.sliderStateChanged(  );
+		MainEdicionSprites.log.log(Level.INFO, "VelocidadProbada: " + tfVelocidad.getText());
+		});//slVelocidad, tfVelocidad
+			
 		tfVelocidad.addFocusListener( new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				miControlador.textFieldFocusLost( slVelocidad, tfVelocidad, slVelocidad.getMinimum(), slVelocidad.getMaximum() );
+				miControlador.textFieldFocusLost(  );
 			}
 		});
-		slAngulo.addChangeListener((ChangeEvent e) -> miControlador.sliderStateChanged( slAngulo, tfAngulo ));
+		
+		
+		slAngulo.addChangeListener((ChangeEvent e) -> miControlador.sliderStateChanged(  ));//slAngulo, tfAngulo
 				
 		tfAngulo.addFocusListener( new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				miControlador.textFieldFocusLost( slAngulo, tfAngulo, slAngulo.getMinimum(), slAngulo.getMaximum() );
+				miControlador.textFieldFocusLost( );// slAngulo, tfAngulo, slAngulo.getMinimum(), slAngulo.getMaximum()
 			}
 		});
 		
-		slGravedad.addChangeListener( (ChangeEvent e) ->miControlador.sliderStateChanged( slGravedad, tfGravedad, 0.1 ));  // Con multiplicador (caso especial de double)
+		slGravedad.addChangeListener( (ChangeEvent e) ->miControlador.sliderStateChanged(  0.1 ));  //slGravedad, tfGravedad, Con multiplicador (caso especial de double)
 				
 		tfGravedad.addFocusListener( new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				miControlador.textFieldFocusLost( slGravedad, tfGravedad, slGravedad.getMinimum(), slGravedad.getMaximum(), 0.1 );  // Con multiplicador
+				miControlador.textFieldFocusLost(  0.1 );  // slGravedad, tfGravedad, slGravedad.getMinimum(), slGravedad.getMaximum(), Con multiplicador
 			}
 		});
 		
 		
 		slZoomAnim.addChangeListener((ChangeEvent e) ->
-				miControlador.sliderStateChanged( slZoomAnim, tfZoomAnim ));
+				miControlador.sliderStateChanged( ));// slZoomAnim, tfZoomAnim
 		
 		
 		tfZoomAnim.addFocusListener( new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				miControlador.textFieldFocusLost( slZoomAnim, tfZoomAnim, slZoomAnim.getMinimum(), slZoomAnim.getMaximum() );
+				miControlador.textFieldFocusLost( );//slZoomAnim, tfZoomAnim, slZoomAnim.getMinimum(), slZoomAnim.getMaximum() 
 			}
 		});
 		
@@ -492,6 +499,7 @@ public class VentanaEdicionSprites extends JFrame {  // Vamos a definir una clas
 			@Override
 			public void windowClosed(WindowEvent e) {
 				guardaDatos();
+				finComunicacion=true;
 				
 			}
 			
@@ -574,7 +582,7 @@ public class VentanaEdicionSprites extends JFrame {  // Vamos a definir una clas
 		p.put("rotacionAnim",""+ slRotacionAnim.getValue());
 		p.put("velocidad", ""+slVelocidad.getValue());
 		p.put("angulo", ""+slAngulo.getValue());
-		p.put("gravedad", ""+slGravedad.getValue());
+		p.put("gravedad", ""+(slGravedad.getValue()));
 		
 		
 		try {
@@ -619,17 +627,18 @@ public class VentanaEdicionSprites extends JFrame {  // Vamos a definir una clas
 					tfRotacionAnim.setText("" + rotacionAnim);
 					int gravedad= Integer.parseInt(p.getProperty("gravedad"));
 					slGravedad.setValue(gravedad);
-					tfGravedad.setText("" + gravedad);
+					tfGravedad.setText(((String.format( "%.1f",gravedad * 0.1)).replace(",", ".")));
 					int velocidad= Integer.parseInt(p.getProperty("velocidad"));
 					slVelocidad.setValue(velocidad);
 					tfVelocidad.setText("" + velocidad);
-					int angulo= Integer.parseInt(p.getProperty("velocidad"));
+					int angulo= Integer.parseInt(p.getProperty("angulo"));
 					slAngulo.setValue(angulo);
-					tfAngulo.setText(""+angulo);
+					tfAngulo.setText("" + angulo);
+					System.out.println("Angulo"+ tfAngulo.getText());
 					ArrayList<String> sec=sacaListaDeFichero(p.getProperty("secuencia"),",");
 					for (int i=0; i<sec.size();i++) {
 						try {
-						File f= new File(new URI(sec.get(i)));
+						File f= new File(new URL(sec.get(i)).toURI());
 						mSecuencia.addElement(f);
 						}catch (Exception e) {
 						}
@@ -690,4 +699,11 @@ public class VentanaEdicionSprites extends JFrame {  // Vamos a definir una clas
 	public ControladorVentanaSprites getController() {
 		return miControlador;
 	}
+	
+	
+	
+	
+	
+	
+	
 }

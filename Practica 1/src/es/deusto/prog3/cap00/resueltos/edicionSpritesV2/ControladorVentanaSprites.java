@@ -1,9 +1,14 @@
 package es.deusto.prog3.cap00.resueltos.edicionSpritesV2;
 
 import java.awt.*;
+import java.awt.event.FocusEvent;
 import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.net.*;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -16,14 +21,19 @@ import org.htmlparser.lexer.Page;
 import org.htmlparser.nodes.TextNode;
 import org.htmlparser.tags.ImageTag;
 
+import es.deusto.prog3.cap00.resueltos.edicionSpritesV2.ControladorVentanaSprites.SpriteSec;
+
+
 import javax.imageio.stream.IIOByteBuffer;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /** Clase controladora de la ventana de sprites
  * @author andoni.eguiluz @ ingenieria.deusto.es
  */
 public class ControladorVentanaSprites {
-	private int numImagenes;
+	private ArrayList<String> imagenes;
 	// Ventana asociada
 	private VentanaEdicionSprites miVentana;  // Ventana controlada
 	
@@ -76,6 +86,7 @@ public class ControladorVentanaSprites {
 					try {
 						dibujitoSprite.setImagen( value.toURI().toURL() );
 					} catch (MalformedURLException e) {
+						MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
 					}
 					textoSprite.setText( value.getName() );
 				}
@@ -130,18 +141,19 @@ public class ControladorVentanaSprites {
 			try {
 				miVentana.lCarpetaSel.setText( dir.toURI().toURL().getPath() );
 			} catch (MalformedURLException e1) {
-				// TODO Auto-generated catch block
+				MainEdicionSprites.log.log(Level.SEVERE, e1.getMessage());
 				e1.printStackTrace();
 			}
 			// Vacía la lista de secuencia
 			if (enMovimiento) {
 				paraAnimacion();
-				try { Thread.sleep( 50 ); } catch (Exception e) {}  // Espera unas centésimas para darle tiempo al hilo de animación a parar
+				try { Thread.sleep( 50 ); } catch (Exception e) {MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());}  // Espera unas centésimas para darle tiempo al hilo de animación a parar
 			}
 			miVentana.mSecuencia.clear();
 			datosSecuencia.clear();  // Se deben limpiar los datos asociados a la vez 
 			// Memoriza esta carpeta para usarla desde el inicio la próxima vez
 			ultimaCarpeta = dir;
+			MainEdicionSprites.log.log(Level.INFO, "Se han cargado las imagenes de la carpeta: " + dir.getName() );
 		}
 	}
 	
@@ -158,15 +170,16 @@ public class ControladorVentanaSprites {
 				
 		
 			for (File f2 : fics) { // Recorre los ficheros y añade los pngs
-				Pattern jpg=Pattern.compile(".*[.jpg]$");
-				Pattern png= Pattern.compile(".*[.png]$");
-				Pattern gif= Pattern.compile(".*[.gif]$");
+				Pattern jpg=Pattern.compile(".*\\.jpg");  
+				Pattern png= Pattern.compile(".*\\.png"); 
+				Pattern gif= Pattern.compile(".*\\.gif");
 				Matcher jpgMatcher= jpg.matcher(f2.getName());
 				Matcher pngMatcher= png.matcher(f2.getName());
 				Matcher gifMatcher= gif.matcher(f2.getName());
 				
-				if (jpgMatcher.matches()|| pngMatcher.matches() || gifMatcher.matches())//TODO añadir posibilidad de jpgs.. en esta linea  // Añadir más extensiones si procede
+				if ((jpgMatcher.matches()|| pngMatcher.matches() || gifMatcher.matches())) { 
 					miVentana.mSprites.addElement( f2 );
+				}
 			}
 			// O lo que sería lo mismo....
 			// for (File f2 : dir.listFiles( new FilenameFilter() {
@@ -231,14 +244,90 @@ public class ControladorVentanaSprites {
 	 * @param tf	Textfield asociado a ese slider
 	 * @param multiplicador	Opcional - si se indica funciona como multiplicador del valor real del slider al mostrado
 	 */
-	public void sliderStateChanged( JSlider sl, JTextField tf,  double...multiplicador ) {
-		// Cuando cambia un slider hay que cambiar el tf asociado
-		if (multiplicador.length==0)
-			tf.setText( sl.getValue()+"" );
-		else 
-			// tf.setText( (sl.getValue() * multiplicador[0])+"" ); // en vez de sacarlo por defecto...
-			tf.setText( String.format( "%.1f", sl.getValue() * multiplicador[0]) ); // ... mejor maquetar con un decimal - si no pueden salir muchos .0000001, .999999 y cosas así
+	public void sliderStateChanged( double...multiplicador ) {//JSlider sl, JTextField tf
+		//try {
+		//	StackTraceElement[] elementos=Thread.currentThread().getStackTrace();
+			Class clase= miVentana.getClass();
+			JSlider sl=null;
+			JTextField tf=null;
+			String nombreJs="";
+		//	String metodoStr= elementos[2].getMethodName();
+			Field[]campos= clase.getDeclaredFields();
+			try {
+			for (Field f:campos) {		
+				if (f.getType()==JSlider.class) { 
+						JSlider j=(JSlider)(f.get(miVentana));
+						nombreJs= f.getName();
+						String nombreTf=f.getName().replace("sl", "tf");
+						for (Field f2:campos) {
+							if (f2.getName().contentEquals(nombreTf)) {
+								JTextField t= (JTextField)f2.get(miVentana);
+								if (multiplicador.length==0 ) {
+									if (!nombreJs.contains("Gravedad")) {
+										try {
+											int val= Integer.parseInt(t.getText());
+											if (val!=j.getValue()) {
+												t.setText(""+ j.getValue());
+											}
+										}catch(Exception e) {
+											MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+										}
+									}
+								}else {
+										try {
+											double val= Double.parseDouble(t.getText());
+											if (val!=j.getValue()) {
+												System.out.println(f2.getName());
+												t.setText((String.format( "%.1f",(j.getValue() *multiplicador[0] ))).replace(",", "."));	
+											}
+										}catch(Exception e) {
+											MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+										}
+									}
+									
+								
+							}
+						}
+					}
+				}
+			}catch (Exception e) {
+				MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+			
+			}
 	}
+						
+					
+				
+		//	String palabr=nombreJs.replace("sl", "");
+		//	String nombreTf= "tf".concat(palabr); 
+		//	for (Field f: campos) {
+		//		if (f.getType()==JTextField.class) {
+		//			if (f.getName().contentEquals(nombreTf)) {
+		//				tf=(JTextField)f.get(miVentana);
+		//			}
+		//		}
+				
+		//	}
+		//	}catch (IllegalAccessException e) {
+		//			e.printStackTrace();
+		//		}
+			
+			//String metodoStr= elementos[2].getMethodName();
+			//System.out.println(metodoStr);
+			//Method metodo=clase.getMethod(null, ChangeEvent.class);
+		//	System.out.println(metodo.getParameters()[0]);
+		//	Parameter param= metodo.getParameters()[0];
+		//	System.out.println(param.getName());
+			
+			// Cuando cambia un slider hay que cambiar el tf asociado
+		//	if (multiplicador.length==0)
+		//		tf.setText( sl.getValue()+"" );
+		//	else 
+				// tf.setText( (sl.getValue() * multiplicador[0])+"" ); // en vez de sacarlo por defecto...
+		//		tf.setText( String.format( "%.1f", sl.getValue() * multiplicador[0]) ); // ... mejor maquetar con un decimal - si no pueden salir muchos .0000001, .999999 y cosas así
+	
+	
+	
 
 	/** Cambio de texto
 	 * @param sl	Slider asociado a ese textfield
@@ -247,32 +336,72 @@ public class ControladorVentanaSprites {
 	 * @param max	Valor máximo
 	 * @param multiplicador	Opcional - si se indica funciona como multiplicador del valor real del slider al mostrado
 	 */
-	public void textFieldFocusLost( JSlider sl, JTextField tf, int min, int max, double...multiplicador ) {
-		// Cuando cambia un textfield hay que comprobar el valor...
-		if (multiplicador.length==0) {
-			try {
-				int val = Integer.parseInt( tf.getText() );
-				if (val<min || val>max) throw new NullPointerException(); // Error por fuera de rango
-				sl.setValue( val ); // Si es correcto se pone el valor en el slider
-			} catch (Exception e) {  
-				// Si no es un valor correcto (no entero o fuera de rango), se anula con feedback
-				JOptionPane.showMessageDialog( miVentana, "Valor incorrecto - debe estar entre " + min + " y " + max, "Error en valor", JOptionPane.ERROR_MESSAGE );
-				tf.setText( "" + min ); // Lo ponemos a valor por defecto (mínimo válido)
-				tf.requestFocus(); // Y volvemos a forzar el foco en ese cuadro
-			}
-		} else {
-			try {
-				double val = Double.parseDouble( tf.getText() );
-				if (val<min*multiplicador[0] || val>max*multiplicador[0]) throw new NullPointerException(); // Error por fuera de rango
-				sl.setValue( (int) Math.round(val/multiplicador[0]) ); // Si es correcto se pone el valor en el slider
-			} catch (Exception e) {  
-				// Si no es un valor correcto (no entero o fuera de rango), se anula con feedback
-				JOptionPane.showMessageDialog( miVentana, "Valor incorrecto - debe estar entre " + (min*multiplicador[0]) + " y " + (max*multiplicador[0]), "Error en valor", JOptionPane.ERROR_MESSAGE );
-				tf.setText( "" + min ); // Lo ponemos a valor por defecto (mínimo válido)
-				tf.requestFocus(); // Y volvemos a forzar el foco en ese cuadro
+	public void textFieldFocusLost(  double...multiplicador ) {
+		
+		Class clase= miVentana.getClass();
+		JSlider slj=null;
+		JTextField tfj=null;
+		String nombretf="";
+	//	String metodoStr= elementos[2].getMethodName();
+		Field[]campos= clase.getDeclaredFields();
+		
+		try {
+			for (Field f: campos) {
+				if (f.getType()==JTextField.class) {
+					JTextField t= (JTextField)f.get(miVentana);
+					nombretf=f.getName();
+					String nombresl=nombretf.replace("tf", "sl");
+					if (multiplicador.length==0) {
+						if (!nombretf.contains("Gravedad")) {
+							try {
+								int val=Integer.parseInt(t.getText());
+								for (Field f2:campos) {		
+									if (f2.getType()==JSlider.class) { 
+											if (f2.getName().contentEquals(nombresl)) {
+												 JSlider j=(JSlider)f2.get(miVentana);
+												 if (j.getValue()!=val) {
+													validaInt(t, j); 
+												 }
+											}
+											
+										}
+									}
+								}catch (Exception e) {
+									MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+								}
+						}
+					
+				
+						}else {
+							try {
+								double val=Double.parseDouble(t.getText());
+								for (Field f2:campos) {		
+									if (f2.getType()==JSlider.class) { 
+											if (f2.getName().contentEquals(nombresl)) {
+												 JSlider j=(JSlider)f2.get(miVentana);
+												 if (j.getValue()!=val) {
+													validaDouble(t, j, multiplicador); 
+												 }
+											}
+											
+										}
+									}
+								}catch (Exception e) {
+									MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+								}
+						}
+				}
 			}
 		}
+		catch(Exception e) {
+			MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+		}
 	}
+		
+		
+			
+		
+		
 	
 	/** Cambio en la selección de lista de secuencia */
 	public void lSecuenciaSelectionChanged() {
@@ -291,7 +420,7 @@ public class ControladorVentanaSprites {
 			try {  // Poner la imagen en el label de preview
 				System.out.println(fSel.toURI());
 				lPreview.setImagen( fSel.toURI().toURL()); 
-			} catch (MalformedURLException e) {}
+			} catch (MalformedURLException e) {MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());}
 			colocarPreview(); // Colocarlo en su tamaño y sitio  (lo hacemos con un método porque lo necesitamos en varios puntos)
 			lPreview.setVisible( true ); // Hacerlo visible
 		} else {  // Si no lo hay, quitamos el gráfico
@@ -306,13 +435,13 @@ public class ControladorVentanaSprites {
 			try {
 				anchura = Integer.parseInt( miVentana.tfAncho.getText() );
 				altura = Integer.parseInt( miVentana.tfAlto.getText() );
-			} catch (Exception e) {}
+			} catch (Exception e) {MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());}
 			int offsetX = 0;
 			int offsetY = 0;
 			try {
 				offsetX = Integer.parseInt( miVentana.tfoffsetX.getText() );
 				offsetY = Integer.parseInt( miVentana.tfoffsetY.getText() );
-			} catch (NumberFormatException e) {}
+			} catch (NumberFormatException e) {MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());}
 			lPreview.setSize( anchura, altura ); // Actualizar el tamaño
 			lPreview.setLocation( offsetX + (miVentana.pPreview.getWidth() - anchura)/2,
 				offsetY + (miVentana.pPreview.getHeight() - altura)/2 ); // Posicionarlo (con respecto al centro del panel)
@@ -333,6 +462,7 @@ public class ControladorVentanaSprites {
 			// Recolocar
 			colocarPreview();
 		} catch (Exception e) {  
+			MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
 			// Si no es un valor correcto (no entero o fuera de rango), se da feedback y se reinician
 			miVentana.tfAncho.setText( "200" );
 			miVentana.tfAlto.setText( "200" );
@@ -366,6 +496,7 @@ public class ControladorVentanaSprites {
 		try {
 			ox = Integer.parseInt( miVentana.tfoffsetX.getText() );
 		} catch (NumberFormatException e) {
+			MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
 			// Si no es un valor correcto, se anula con feedback
 			JOptionPane.showMessageDialog( miVentana, "Valor incorrecto - debe ser entero", "Error en valor", JOptionPane.ERROR_MESSAGE );
 			miVentana.tfoffsetX.setText( "0" );
@@ -385,6 +516,7 @@ public class ControladorVentanaSprites {
 		try {
 			oy = Integer.parseInt( miVentana.tfoffsetY.getText() );
 		} catch (NumberFormatException e) {
+			MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
 			// Si no es un valor correcto, se anula con feedback
 			JOptionPane.showMessageDialog( miVentana, "Valor incorrecto - debe ser entero", "Error en valor", JOptionPane.ERROR_MESSAGE );
 			miVentana.tfoffsetY.setText( "0" );
@@ -408,6 +540,7 @@ public class ControladorVentanaSprites {
 				throw new NullPointerException();  // Fuerza error
 			}
 		} catch (Exception e) {
+			MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
 			// Si no es un valor correcto, se anula con feedback
 			JOptionPane.showMessageDialog( miVentana, "Valor incorrecto - debe ser positivo", "Error en valor", JOptionPane.ERROR_MESSAGE );
 			miVentana.tfDuracion.setText( "100" );
@@ -467,15 +600,20 @@ public class ControladorVentanaSprites {
 		Thread t = new Thread( ()-> {
 			long initTime = System.currentTimeMillis();
 			{
+			try {	
 				long lastTime = System.currentTimeMillis();
 				while( true ) {  // Lo ponemos forever y lo definiremos demon para que se pare solo
 					numFrames++;
-					try { Thread.sleep( MILIS_POR_FRAME ); } catch (Exception e) {}  
+					Random r= new Random();
+					long tiempoAleatorio=MILIS_POR_FRAME+ r.nextInt(5); 
+					try { Thread.sleep( tiempoAleatorio   ); } catch (Exception e) {
+						MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+					}  
 					long tiempoReal = System.currentTimeMillis() - lastTime;  // Tiempo real transcurrido entre ejecución y ejecución del bucle
 						// En el algoritmo usamos tiempoReal en lugar de MILIS_POR_FRAME. Serán muy parecidos pero según la complejidad del código
 						// ocurrirá que entre bucle y bucle a veces pasen más milisegundos de los esperados. Es más preciso siempre usar el clock
 						double fps = numFrames * 1000.0 / (lastTime-initTime);
-						if (tiempoReal!=MILIS_POR_FRAME) miVentana.setTitle( "Edición de sprites - Prog. III - " + String.format( "%.1f" , fps) + " FPS (Pérdida de " + (tiempoReal-MILIS_POR_FRAME) + " msg.)" ); // Mostramos cuántos milis se pierden y cómo afecta eso a los frames por segundo
+						if (tiempoReal!=tiempoAleatorio) miVentana.setTitle( "Edición de sprites - Prog. III - " + String.format( "%.1f" , fps) + " FPS (Pérdida de " + (tiempoReal-tiempoAleatorio) + " msg.)" ); // Mostramos cuántos milis se pierden y cómo afecta eso a los frames por segundo
 					lastTime = System.currentTimeMillis();
 					if (enMovimiento && fotogramaSecuencia!=-1) {
 						if (enAnim) {
@@ -517,41 +655,52 @@ public class ControladorVentanaSprites {
 					}
 				}
 			}
-		} );
+			catch(Exception e) {
+				MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+			
+			}
+			}	});
 		t.setDaemon( true );  // Se pone a daemon para que la JVM se acabe sola cuando no haya más hilos principales
 		t.start();
+	
 	}
 	
 	/** Inicia la animación en la arena (si no hay ningún gráfico no hace nada)
 	 */
 	public void iniciarAnimacion() {
-		if (datosSecuencia.isEmpty()) return;  // Si no hay secuencia de animación no hay nada que animar (ni un solo gráfico)
-		if (enSecuencia)
-			fotogramaSecuencia = 0;
-		else
-			fotogramaSecuencia = miVentana.lSecuencia.getSelectedIndex();
-		if (fotogramaSecuencia==-1) return; // Si no hay animación de secuencia y no hay fotograma seleccionado no hay nada que animar
-		ponFotograma();
-		lAnim.setVisible( true );  // Visualiza el gráfico
-		milisFotogramaActual = datosSecuencia.get( fotogramaSecuencia ).duracionMsegs;
-		posX = Integer.parseInt( miVentana.tfOrigenX.getText() );
-		posY = Integer.parseInt( miVentana.tfOrigenY.getText() );
-		vel = Integer.parseInt( miVentana.tfVelocidad.getText() );
-		angVel = -Integer.parseInt( miVentana.tfAngulo.getText() )/180.0*Math.PI;  // Cambiado de signo porque en pantalla la Y baja en vez de subir
-		gravedad = Double.parseDouble( miVentana.tfGravedad.getText() );
-		rotPorFotograma = Integer.parseInt( miVentana.tfRotacionAnim.getText() )/180.0*Math.PI/1000.0*MILIS_POR_FRAME;
-		zoomPorFotograma =
-			Math.pow( Integer.parseInt( miVentana.tfZoomAnim.getText() )/100.0,
-					1.0/(1000.0/MILIS_POR_FRAME) );
-		rot = 0;
-		zoom = 1.0;
+		try {
+			if (datosSecuencia.isEmpty()) return;  // Si no hay secuencia de animación no hay nada que animar (ni un solo gráfico)
+			if (enSecuencia)
+				fotogramaSecuencia = 0;
+			else
+				fotogramaSecuencia = miVentana.lSecuencia.getSelectedIndex();
+			if (fotogramaSecuencia==-1) return; // Si no hay animación de secuencia y no hay fotograma seleccionado no hay nada que animar
+			ponFotograma();
+			lAnim.setVisible( true );  // Visualiza el gráfico
+			milisFotogramaActual = datosSecuencia.get( fotogramaSecuencia ).duracionMsegs;
+			posX = Integer.parseInt( miVentana.tfOrigenX.getText() );
+			posY = Integer.parseInt( miVentana.tfOrigenY.getText() );
+			vel = Integer.parseInt( miVentana.tfVelocidad.getText() );
+			angVel = -Integer.parseInt( miVentana.tfAngulo.getText() )/180.0*Math.PI;  // Cambiado de signo porque en pantalla la Y baja en vez de subir
+			gravedad = Double.parseDouble( miVentana.tfGravedad.getText() );
+			rotPorFotograma = Integer.parseInt( miVentana.tfRotacionAnim.getText() )/180.0*Math.PI/1000.0*MILIS_POR_FRAME;
+			zoomPorFotograma =
+				Math.pow( Integer.parseInt( miVentana.tfZoomAnim.getText() )/100.0,
+						1.0/(1000.0/MILIS_POR_FRAME) );
+			rot = 0;
+			zoom = 1.0;
+		}catch (Exception e) {
+			MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+		}
 	}
 	
 	private void ponFotograma() {
 		if (fotogramaSecuencia<0 || fotogramaSecuencia>=datosSecuencia.size()) return;
 		try {
 			lAnim.setImagen( miVentana.mSecuencia.getElementAt( fotogramaSecuencia ).toURI().toURL() );
-		} catch (MalformedURLException e) {}
+		} catch (MalformedURLException e) {
+			MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+		}
 		lAnim.setZoom( datosSecuencia.get(fotogramaSecuencia).zoom/100.0 );
 		lAnim.setRotacion( datosSecuencia.get(fotogramaSecuencia).zoom/180.0*Math.PI );
 	}
@@ -576,8 +725,203 @@ public class ControladorVentanaSprites {
 	
 
 	public void clickBBuscarWeb() {
+		try {
+			imagenes= new ArrayList<String>();
+			String h= JOptionPane.showInputDialog("Introduce la busqueda");
+			String busqueda="https://www.bing.com/images/search?q=".concat(h);
+			System.out.println(busqueda);
+			procesaWeb(busqueda, new ProcesadoWeb() {
+			
+			@Override
+			public void procesaTagCierre(Tag tag, LinkedList<Tag> pilaTags, boolean enHtml) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void procesaTag(Tag tag, LinkedList<Tag> pilaTags) {
+				String s= tag.getText();
+				//System.out.println(s);
+					if (tag.getText().startsWith("img") ) {
+					//	System.out.println(tag.getText());
+						String src=tag.getAttribute("src");
+						System.out.println(src);
+						if (src.startsWith("https")) {
+							imagenes.add(src);
+							System.out.println("es enlace");
+							descargaImagenes(src);
+						}
+					}
+					
+				}
+				
+			
+				//TODO inspeccionar Tags
+			
+			
+			
+			@Override
+			public void procesaImagen(ImageTag imagen, LinkedList<Tag> pilaTags) {
+				
+			}
+				
+				
+			
+		});
+			//TODO cambiar el file a la carpeta
+			File f= new File("");
+			ultimaCarpeta=f;
+			datosSecuencia.clear();
+			cargaFicherosGraficosOrdenados(f);
+			
+			
+		}
+		catch(Exception e) {
+				MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+		}
+	}
+	
+	public static interface ProcesadoWeb {
+		/** Método llamado cuando se procesa un tag de apertura html
+		 * @param tag	Tag de apertura con toda la información incluida
+		 * @param pilaTags	Pila actual de tags (previa a ese tag)
+		 */
+		void procesaTag( Tag tag, LinkedList<Tag> pilaTags );
+		/** Método llamado cuando se procesa un tag de cierre
+		 * @param tag	Tag de cierre
+		 * @param pilaTags	Pila actual de tags (posterior a cerrar ese tag)
+		 * @param enHtml	true si el tag de cierre es explícito HTML, false si es implícito en el fichero pero no está indicado
+		 */
+		void procesaTagCierre( Tag tag, LinkedList<Tag> pilaTags, boolean enHtml );
+		/** Método llamado cuando se procesa una imagen 
+		 * @param imagen	
+		 * @param pilaTags	Pila actual de tags donde aparece esa imagen
+		 */
+		void procesaImagen( ImageTag imagen, LinkedList<Tag> pilaTags );
+	}
+	
+	public static void descargaImagenes(String src) {
+		//TODO imagenes menor que 30 al guardar src
+			URL url;
+			try {
+				url = new URL(src);
+			URLConnection urlCon = url.openConnection();
+			InputStream in= urlCon.getInputStream();
+			OutputStream os =new FileOutputStream( new File("descarga"+ new Date().getTime()+".jpg"));
+			// buffer para ir leyendo.
+			byte [] array = new byte[1024];
 		
+			// Primera lectura y bucle hasta el final
+			int leido = in.read(array);
+			while (leido > 0) {
+				os.write(array,0,leido);
+				leido=in.read(array);
+			}
+			//TODO mirar pattern que solo deje ficheros que contengan el pattern
+			// Cierre de conexion y fichero.
+			in.close();
+			os.close();
+			} catch (Exception e) {
+				MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+			}
+	
+		}
+	static LinkedList<Tag> pilaTags;
+	public static void procesaWeb( String dirWeb, ProcesadoWeb proc ) {
+		pilaTags = new LinkedList<>();
+		try {
+			ConnectionManager manager = Page.getConnectionManager();
+			manager.getRequestProperties().put( "User-Agent", "Mozilla/4.0" ); // Hace pensar a la web que somos un navegador
+			URLConnection connection = manager.openConnection( dirWeb );
+			Lexer mLexer =  new Lexer( connection );
+			Node n = mLexer.nextNode();
+			while (n!=null) {
+				if (n instanceof Tag) {
+					//System.out.println(n.getText());
+					Tag t = (Tag) n;
+					if (t.isEndTag()) {
+						if (pilaTags.get(0).getTagName().equals(t.getTagName())) {  // Tag de cierre
+							pilaTags.pop();
+							proc.procesaTagCierre( t, pilaTags, true );
+						} else {  // El tag que se cierra no es el último que se abrió: error html pero se procesa
+							boolean estaEnPila = false;
+							for (Tag tag : pilaTags) if (tag.getTagName().equals(t.getTagName())) estaEnPila = true;
+							if (estaEnPila) {  // Ese tag está en la pila: quitar todos los niveles hasta él
+								while (!pilaTags.get(0).getTagName().equals(t.getTagName())) {
+									Tag tag = pilaTags.pop();
+									proc.procesaTagCierre( tag, pilaTags, false );
+								}
+								pilaTags.pop();
+								proc.procesaTagCierre( t, pilaTags, true );
+							} else { // El tag que se cierra no está en la pila
+							}
+						}
+					} else if (t.getText().endsWith("/")){  // Tag de apertura y cierre
+						proc.procesaTag( t, pilaTags );
+						proc.procesaTagCierre( t, pilaTags, true );
+					} else { // Tag de inicio
+						proc.procesaTag( t, pilaTags );
+						pilaTags.push( t );
+					}
+				} else {
+					if (n instanceof ImageTag) {
+						System.out.println("es imagen");
+						proc.procesaImagen( (ImageTag)n, pilaTags );
+					} else {
+						
+					}
+				}
+				n = mLexer.nextNode();
+			}
+		}catch (Exception e) {
+			MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+		}
+	}
+	
+	private  void validaInt(JTextField t, JSlider j) {
+		int max=j.getModel().getMaximum();
+		int min=j.getModel().getMinimum();
+		try {
+			int val = Integer.parseInt( t.getText() );
+			if (val<min || val>max) throw new NullPointerException();
+			j.setValue(val);// Error por fuera de rango // Si es correcto se pone el valor en el slider
+		} catch (Exception e) {  
+			MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+			// Si no es un valor correcto (no entero o fuera de rango), se anula con feedback
+			JOptionPane.showMessageDialog( miVentana, "Valor incorrecto - debe estar entre " + min + " y " + max, "Error en valor", JOptionPane.ERROR_MESSAGE );
+			t.setText( "" + min ); // Lo ponemos a valor por defecto (mínimo válido)
+			t.requestFocus(); // Y volvemos a forzar el foco en ese cuadro
+		}
+
 	}
 	
 	
+		private  void validaDouble(JTextField t, JSlider j, double...multiplicador ) {
+			int max=j.getModel().getMaximum();
+			int min=j.getModel().getMinimum();
+			try {
+				double val = Double.parseDouble( t.getText() );
+				if (val<min*multiplicador[0] || val>max*multiplicador[0]) throw new NullPointerException(); // Error por fuera de rango
+				j.setValue( (int) Math.round(val/multiplicador[0]) ); // Si es correcto se pone el valor en el slider
+			} catch (Exception e) { 
+				MainEdicionSprites.log.log(Level.SEVERE, e.getMessage());
+				// Si no es un valor correcto (no entero o fuera de rango), se anula con feedback
+				JOptionPane.showMessageDialog( miVentana, "Valor incorrecto - debe estar entre " + (min*multiplicador[0]) + " y " + (max*multiplicador[0]), "Error en valor", JOptionPane.ERROR_MESSAGE );
+				t.setText( "" + min ); // Lo ponemos a valor por defecto (mínimo válido)
+				t.requestFocus(); // Y volvemos a forzar el foco en ese cuadro
+			}
+		}
+		
+	
+		
+		
+		
+		
+		private void lanzaCliente() {
+			
+		}
+		
+		
+		
+		
 }

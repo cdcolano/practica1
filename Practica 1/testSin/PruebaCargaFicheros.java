@@ -19,7 +19,9 @@ public class PruebaCargaFicheros {
 		modelo.clear();
 		v.setVisible(true);
 		try {
-		v.getController().cargaFicherosGraficosOrdenados(new File(new URI("C:\\Users\\cdcol\\eclipse-workspace\\Practica 1\\testSin\\spritesheets\\ninja\\png")));
+		File f=new File ("C:\\Users\\cdcol\\git\\practica1\\Practica 1\\testSin\\spritesheets\\ninja\\png");
+		v.getController().cargaFicherosGraficosOrdenados(f);
+		
 		}catch(Exception e) {
 			
 		}

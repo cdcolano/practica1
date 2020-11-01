@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileFilter;
 import java.net.URI;
+import java.net.URL;
 
 import javax.swing.DefaultListModel;
 
@@ -17,23 +18,34 @@ public class cargaFicherosGraficosOrdenados2 {
 		VentanaEdicionSprites v = new VentanaEdicionSprites();
 		DefaultListModel<File>modelo=(DefaultListModel)v.lSprites.getModel();
 		modelo.clear();
+		System.out.println(modelo.getSize());
 		try {
-		File f= new File(new URI("C:/Users/cdcol/eclipse-workspace/Practica%201/test1/spritesheets/ninja/png"));
+		File f= new File("C:\\Users\\cdcol\\git\\practica1\\Practica 1\\test1\\spritesheets\\ninja\\png");
+		System.out.println(f.getAbsolutePath());
 		v.getController().cargaFicherosGraficosOrdenados(f);
 		if (v.lSprites.getModel().getSize()==0) {
 			fail("error en la carga de fichero");
 		}else {
 			int resultado=0;
 			for (int i=0;i<v.lSprites.getModel().getSize();i++) {
-				v.lSprites.setSelectedIndex(i);	//cojo elemento por elemento toda la lista
-				if (v.lSprites.getSelectedValue().getName().endsWith(".png") ) { //compruebo si acaba con png
+				v.lSprites.setSelectedIndex(i);//cojo elemento por elemento toda la lista
+				//System.out.println(v.lSprites.getSelectedIndex());
+				if (v.lSprites.getSelectedValue().getName().endsWith(".png") ) {
+					//System.out.println("es png");//compruebo si acaba con png
 				//if (v.lSprites.getModel().getElementAt(i).getName().endsWith(".png")) {//si el elemento del modelo acaba con png saldra en lSprites
 					resultado++;
 				}
-				if (v.lSprites.getModel().getSize()-1==i) {
-					if (v.lSprites.getLastVisibleIndex()!=i)
+			}
+				//System.out.println(resultado +"resultado");
+				//System.out.println(v.lSprites.getModel().getSize() + "tamaño");
+				if (v.lSprites.getModel().getSize()!=resultado) {
+				//	if (v.lSprites.getLastVisibleIndex()!=v.lSprites.getModel().getSize()) {
+						//System.out.println(v.lSprites.getModel());
 						fail("lista no es igual de larga");
-				}
+						
+					//}
+						
+				
 			}
 			assertEquals(v.lSprites.getModel().getSize(), resultado);
 			boolean correct=true;
@@ -45,7 +57,8 @@ public class cargaFicherosGraficosOrdenados2 {
 			assertEquals(true, correct);
 		}
 		}catch(Exception e) {
-			
+			e.printStackTrace();
+			fail("Excepcion");
 		}
 		v.getController().cargaFicherosGraficosOrdenados(null);
 		if (v.lSprites.getModel().getSize()!=0) {
