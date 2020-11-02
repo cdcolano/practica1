@@ -1,13 +1,19 @@
 package es.deusto.prog3.cap00.resueltos.edicionSpritesV2;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+import java.util.zip.InflaterInputStream;
 
 import javax.swing.UIManager;  // Para usar look and feels distintos al estándar
 
@@ -71,7 +77,7 @@ public class MainEdicionSprites {
 		}
 	
 	}
-	
+	static boolean finComunicacion;
 	
 	private void lanzaServidor(VentanaEdicionSprites miVentana) {
 		try(ServerSocket serverSocket= new ServerSocket(PUERTO);) {
@@ -108,14 +114,23 @@ public class MainEdicionSprites {
 				outputACliente.println (""+ miVentana.slGravedad.getValue());
 				
 				
-			}
+			}finComunicacion=false;
 		}catch (Exception e) {
 			
 		}
 	}
+
 	
-	public void lanzaCliente() {
-		
+	public void lanzaCliente(VentanaEdicionSprites cliente) {
+		try(ServerSocket serverSocket= new ServerSocket(PUERTO);) {
+			Socket socket=serverSocket.accept();
+			PrintWriter outputACliente=new PrintWriter(socket.getOutputStream(),true);
+			while (!finComunicacion) {
+						
+			}
+		}catch (Exception e) {
+			
+		}
 	}
 
 }
